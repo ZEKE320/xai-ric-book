@@ -68,6 +68,10 @@ class FrequencyCalculator:
         """文章中の単語の豊富さを計算する: (単語の種類の数)/(文章中の単語数)"""
         return self.ctr.count_word_types(sentence) / self.ctr.sentence_length(sentence)
 
+    def average_word_length(self, sentence: list[str]) -> float:
+        """文章中の単語の平均文字数を計算する"""
+        return sum([len(word) for word in sentence]) / self.ctr.sentence_length(sentence)
+
     def comma_frequency(self, sentence: list[str]) -> float:
         """文章内で出現するカンマの割合を計算する"""
         return self.ctr.count_comma(sentence) / self.ctr.sentence_length(sentence)
@@ -123,17 +127,39 @@ class DatasetGenerator:
     ctr = Counter()
     fc = FrequencyCalculator()
 
-    def generate_dataset(
+    def __init__(self, tags: list[str] = None):
+        self.columns = [
+            "word variation",
+            "uncommon word frequency",
+            "sentence length",
+            "average word length",
+        ]
+        self.columns.extend(tags)
+
+    def generate_dataset_sent(
         self, sentence: list[str], tags: list[str], correctness: bool
     ) -> tuple[list[float], bool]:
         """文章のリストから特徴量のリストを生成する"""
         freq_dict = self.fc.all_pos_frequency(sentence)
         return (
-            [freq_dict.get(tag, 0) for tag in tags]
-            + [
+            [
                 self.fc.word_variation(sentence),
                 self.fc.uncommon_word_frequency(sentence),
                 self.ctr.sentence_length(sentence),
-            ],
+                self.fc.average_word_length(sentence),
+            ]
+            + [freq_dict.get(tag, 0) for tag in tags],
             correctness,
         )
+
+    def generate_dataset_para(
+        self, paragraph: list[list[str]], tags: list[str], correctness: bool
+    ) -> tuple[list[float], bool]:
+        """段落のリストから特徴量のリストを生成する"""
+        sentence = [word for sentence in paragraph for word in sentence]
+        return self.generate_dataset_sent(sentence, tags, correctness)
+
+
+def para2sent(para: list[list[str]]) -> list[str]:
+    """段落のリストを文章のリストに変換する"""
+    return [word for sent in para for word in sent]
