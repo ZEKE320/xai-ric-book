@@ -58,7 +58,7 @@ def count_colon(sentence: list[str]) -> int:
     return count_character(sentence, ":")
 
 
-def count_nonalphabetic_characters(sentence: list[str]) -> int:
+def count_non_alphabetic_characters(sentence: list[str]) -> int:
     """文章内で出現する記号の合計を計算する"""
     pattern = r"[^a-zA-Z\s]"
     matches = re.findall(pattern, sentence)
