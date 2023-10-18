@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+black = "*"
+fqdn = "*"
+isoduration = "*"
+japanize-matplotlib = "*"
+jsonpointer = "*"
+jupyter = "*"
+lesscpy = "*"
+lightgbm = "*"
+mypy = "*"
+nbclassic = "*"
+nltk = "*"
+pexpect = "*"
+pip-review = "*"
+pyrsistent = "*"
+seaborn = "*"
+shap = "*"
+sklearn = "*"
+tokenize-rt = "*"
+uri-template = "*"
+webcolors = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
