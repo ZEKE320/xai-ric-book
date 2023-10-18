@@ -1,5 +1,5 @@
-import sandbox.tools.feature_counter as fct
-import sandbox.tools.frequency_calculator as fcal
+import tools.feature_counter as fct
+import tools.frequency_calculator as fcal
 
 
 class DatasetGenerator:
